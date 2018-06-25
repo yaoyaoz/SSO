@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx.xsd">
+		
+	<!-- 【扫描service包】下所有使用Spring注解的类型 -->
+	<context:component-scan base-package="rg.sso.service" />
+	
+	<!-- *****************事务，因实现未涉及数据库，为避免报错暂时注释******************* -->
+	<!-- ####【事物配置】 START#### -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	<!-- 配置基于注解的声明式事务 默认使用基于注解来管理事务行为 -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	<!-- ####【事物配置】 END#### -->
+</beans>

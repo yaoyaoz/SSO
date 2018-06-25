@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd 
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/mvc
+	http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+	<!-- 扫描web-mvc相关的bean -->
+	<context:component-scan base-package="rg.sso.controller" />
+	<!-- context:annotation-config用来激活注解@Autowired和@Required等，当使用了context:component-scan扫描包以后则可以省去这个配置  
+		<context:annotation-config />-->
+
+	<!-- 配置springMVC -->
+	<!-- 开启SpringMVC注解模式 -->
+	<!-- 作用（1）自动注册DefaultAnnotationHandleMapping,AnnotationMethodHandlerAdapter实例的分层注解 -->
+	<!-- 作用（2）提供一系列：数据绑定，数字和日期的format(格式化) @NumberFormat,@DataTimeFormat,xml,json默认读写支持 -->
+	<mvc:annotation-driven />
+
+	<!-- 配置jsp 显示ViewResolver -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView"></property>
+		<property name="prefix" value="/WEB-INF/"></property>
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+	
+	<!-- 静态资源默认servlet配置 -->
+	<!-- 作用（1）加入对静态资源的处理：js，gif,png -->
+	<!-- 作用（2）允许使用"/"做整体映射 (servlet-mapping 映射路径：“/”) -->
+	<mvc:default-servlet-handler />
+	
+	<!-- 资源映射 -->
+	<mvc:resources location="/css/" mapping="/css/**" />
+	<mvc:resources location="/js/" mapping="/js/**" />
+	
+	<!-- 定义文件上传解析器(限制单位：字节)-->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="defaultEncoding" value="UTF-8"></property>
+		<property name="maxUploadSize" value="5242880"></property>
+	</bean>
+</beans>

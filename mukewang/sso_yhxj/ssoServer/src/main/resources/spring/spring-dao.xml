@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- ####【基本配置】 START#### -->
+	<!-- 1.配置数据库相关参数 properties属性文件：${jdbc.url} ignore-unresolvable="true" 忽略找不到的[别用] -->
+	<!--<context:property-placeholder location="classpath:*.properties" /> 使用*匹配时，单元测试找不到配置属性-->
+	<context:property-placeholder location="classpath:jdbc.properties" />
+	<!-- 2.数据库连接池 -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<!-- 数据源驱动类：jdbc驱动类 -->
+		<property name="driverClass" value="${jdbc.driverClass}" />
+		<!-- 配置连接池连接属性 -->
+		<property name="jdbcUrl" value="${jdbc.url}" />
+		<property name="user" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+
+		<!-- c3p0的私有属性 -->
+		<!-- 连接数 -->
+		<property name="maxPoolSize" value="30" />
+		<property name="minPoolSize" value="10" />
+		<!-- 关闭连接后不自动commit,默认false，这是为了强调所以写出来 -->
+		<property name="autoCommitOnClose" value="false" />
+		<!-- 等待连接超时时间，释放资源，避免连接数maxPoolSize被占满形成挂死 -->
+		<!-- 程序从连接池checkout session的时候等待1000毫秒，超时则抛出异常；后面程序不会出现挂死现象 -->
+		<property name="checkoutTimeout" value="1000" />
+		<!-- 当获取连接失败重试次数 -->
+		<property name="acquireRetryAttempts" value="2" />
+	</bean>
+
+	<!-- *********Spring和Mybatis整合配置3,4(整合的精华-约定大于配置的原则)********* -->
+	<!-- 3.配置sqlSessionFactory对象 数据库会话工厂 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- 注入数据库连接池 -->
+		<property name="dataSource" ref="dataSource" />
+		<!-- 配置Mybatis全局配置文件：mybatis-config.xml -->
+		<property name="configLocation" value="classpath:mybatis/mybatis-config.xml" />
+		<!-- 扫描entity包 使用别名（使用类时可省略包名）作用详情：http://blog.csdn.net/u014284252/article/details/47186913 -->
+		<property name="typeAliasesPackage" value="rigour.localmatch.bean" />
+		<!-- 扫描sql配置文件：mapper需要的xml文件 (默认在dao包下寻找，也可以指定其他位置) <property name="mapperLocations" 
+			value="classpath:mapper/*.xml" /> -->
+	</bean>
+	<!-- 4.配置扫描Dao接口包，动态实现Dao接口，并注入到spring容器中 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<!-- 注入sqlSessionFactory 这个属性如果不设置，也会自己在容器里查找 -->
+		<!-- 使用sqlSessionFactoryBeanName属性+value注入，可以防止启动mybatis时，jdbc配置文件还没有加载的错误 -->
+		<!-- 1.使用ref可以在spring部署的时候验证依赖的bean是否真实存在。 2.value进行指定仅在创建bean实例时验证，导致错误的延时出现，带来额外的类型转换开销 -->
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+		<!-- 给出需要扫描Dao接口包 -->
+		<property name="basePackage" value="rigour.localmatch.dao" />
+	</bean>
+	<!--####【基本配置】 END#### -->
+</beans>
