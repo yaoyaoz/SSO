@@ -38,9 +38,15 @@ public class UrlFilter implements Filter {
 		HttpServletResponse response = (HttpServletResponse) sResponse;
 		HttpSession session = request.getSession(true);// 若存在会话则返回该会话，否则新建一个会话。
 		/**##### basePath路径的保存   #####**/
-		String path = request.getContextPath();
+		String path = request.getContextPath();//	/sso_app1
+		
+		/**
+		 * request.getServerName()是tomcat服务器的端口号
+		 * 如果把tomcat的port由8080改为1112，这里basePath就是http://localhost:1112/sso_app1/
+		 */
 		String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path
-				+ "/";
+				+ "/";//	http://localhost:8080/sso_app1/
+		
 		// logger.info(basePath);
 		request.setAttribute("basePath", basePath);
 		/**##### 请求路径打印   #####**/
