@@ -46,16 +46,24 @@ public class UrlFilter implements Filter {
 		 */
 		String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path
 				+ "/";//	http://localhost:8080/sso_app1/
-		
 		// logger.info(basePath);
+		
 		request.setAttribute("basePath", basePath);
+		//问题：把basePath放到request里面，没看到有request.getAttribute("basePath")的地方也？
+		
 		/**##### 请求路径打印   #####**/
 		String url = request.getServletPath();
+		//如果浏览器地址栏输入的是http://localhost:8080/sso_app1，url就是/index.jsp
+		//如果浏览器地址栏输入的是http://localhost:8080/sso_app1/aa.css，url就是/aa.css
+		
 		if (url.equals(""))
 			url += "/";
 		// post请求编码,交给spring过滤器
 		// request.setCharacterEncoding("utf-8");// 统一编码格式
+		
 		String loginName = (String) session.getAttribute("loginName");
+		//问题：怎么都没看到setAttribute("loginName")的地方，就可以get了呢？
+		
 		/** 无需验证的 */
 		String[] strs = { "/css/", "/js/", "themes", ".css", ".jpg", ".png" }; // 路径中包含这些字符串的,可以不用用检查
 		// 特殊用途的路径可以直接访问
