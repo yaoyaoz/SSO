@@ -1,8 +1,6 @@
 package yh.app1.filter;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -59,7 +57,7 @@ public class UrlFilter implements Filter {
 		if (url.equals(""))
 			url += "/";
 		// post请求编码,交给spring过滤器
-		// request.setCharacterEncoding("utf-8");// 统一编码格式
+		request.setCharacterEncoding("utf-8");// 统一编码格式
 		
 		String loginName = (String) session.getAttribute("loginName");
 		//问题：怎么都没看到setAttribute("loginName")的地方，就可以get了呢？
@@ -86,6 +84,8 @@ public class UrlFilter implements Filter {
 			String paraName = (String) enu.nextElement();
 			parameterMap.put(paraName, request.getParameter(paraName));
 		}
+		//问题：如果请求参数里面有中文，这里就会有乱码，咋解决呢？
+		
 		logger.info("【url日志】 UrlFilter:【" + basePath.substring(0,basePath.lastIndexOf("/"))+url + "】  loginName=" + loginName + " parameterMap="
 				+ parameterMap);
 		/**********
