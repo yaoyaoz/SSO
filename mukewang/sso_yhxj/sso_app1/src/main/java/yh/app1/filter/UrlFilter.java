@@ -51,8 +51,10 @@ public class UrlFilter implements Filter {
 		
 		/**##### 请求路径打印   #####**/
 		String url = request.getServletPath();
-		//如果浏览器地址栏输入的是http://localhost:8080/sso_app1，url就是/index.jsp
-		//如果浏览器地址栏输入的是http://localhost:8080/sso_app1/aa.css，url就是/aa.css
+		/**
+		 * 如果浏览器地址栏输入的是http://localhost:8080/sso_app1，url就是/index.jsp（这个应该是默认路径）
+		 * 如果浏览器地址栏输入的是http://localhost:8080/sso_app1/aa.css，url就是/aa.css
+		 */
 		
 		if (url.equals(""))
 			url += "/";
@@ -60,10 +62,13 @@ public class UrlFilter implements Filter {
 		request.setCharacterEncoding("utf-8");// 统一编码格式
 		
 		String loginName = (String) session.getAttribute("loginName");
-		//问题：怎么都没看到setAttribute("loginName")的地方，就可以get了呢？
+		/**
+		 * 问题：怎么都没看到setAttribute("loginName")的地方，就可以get了呢？
+		 * 这里get了loginName，后面都没逻辑用这个。这句话是不是多余的？
+		 */
 		
 		/** 无需验证的 */
-		String[] strs = { "/css/", "/js/", "themes", ".css", ".jpg", ".png" }; // 路径中包含这些字符串的,可以不用用检查
+		String[] strs = { "/css/", "/js/", "themes", ".css", ".jpg", ".png" }; // 路径中包含这些字符串的,可以不用检查
 		// 特殊用途的路径可以直接访问
 		if (strs != null && strs.length > 0) {
 			for (String str : strs) {
@@ -108,7 +113,8 @@ public class UrlFilter implements Filter {
 		/** 响应计时 **/
 		Long startMillis = System.currentTimeMillis();
 		filterChain.doFilter(request, response);
-		logger.info("【url日志】UrlFilter【" +  basePath.substring(0,basePath.lastIndexOf("/"))+url + "】  :耗时=" + (System.currentTimeMillis() - startMillis));
+		logger.info("【url日志】UrlFilter【" + basePath.substring(0, basePath.lastIndexOf("/")) + url + "】  :耗时="
+				+ (System.currentTimeMillis() - startMillis));
 	}
 
 	@Override
