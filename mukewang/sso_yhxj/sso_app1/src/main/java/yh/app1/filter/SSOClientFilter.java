@@ -54,7 +54,7 @@ public class SSOClientFilter implements Filter {
 		String username = (String) session.getAttribute("username");
 		String ticket = request.getParameter("ticket");
 		String globalSessionId = request.getParameter("globalSessionId");
-		String url = request.getRequestURL().toString();
+		String url = request.getRequestURL().toString();//浏览器地址栏输的什么，这里得到的url就是什么
 
 		String[] needLoginAry = needLoginUrls.split(",");
 
@@ -75,8 +75,18 @@ public class SSOClientFilter implements Filter {
 		}
 		// 登录拦截
 		if (StringUtil.isEmpty(username)) {// 本地未登录
+			/**
+			 * 问题：为什么session里面有username，就代表是本地已经登录了也？
+			 */
+			
 			// 中心已经登录
 			if (StringUtil.isUnEmpty(ticket)) {
+				/**
+				 * 问题：
+				 * String ticket = request.getParameter("ticket");
+				 * 为什么判断中心登录没有，是看的ticket呢？
+				 */
+				
 				if (StringUtil.isUnEmpty(globalSessionId)) {
 					// 令牌验证
 					// 发送请求参数
@@ -91,6 +101,10 @@ public class SSOClientFilter implements Filter {
 							+ request.getServerPort() + request.getContextPath() + "/";
 					postMethod.addParameter("localLoginOutUrl", basePath + localExitUrl);// 退出接口
 					postMethod.addParameter("localSessionId", session.getId());// 退出接口
+					/**
+					 * 这个session.getId是全局的，还是本地的也？
+					 */
+					
 					// 发送验证请求
 					HttpClient httpClient = new HttpClient();
 					try {
@@ -120,6 +134,10 @@ public class SSOClientFilter implements Filter {
 				} else {
 					logger.info("缺少必须的globalSessionId");
 					throw new RuntimeException("ticket不为空时，globalSessionId不能为空");
+					/**
+					 * 问题：为什么ticket不为空时，globalSessionId也不能为空呢？
+					 * ticket和globalSessionId是怎么来的？认证中心怎么认证这两个值的？
+					 */
 				}
 
 			} else {
