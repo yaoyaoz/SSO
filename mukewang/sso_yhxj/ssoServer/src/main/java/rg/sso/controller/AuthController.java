@@ -111,7 +111,10 @@ public class AuthController extends BaseController {
 					url.append("?");
 				}
 				url.append("ticket=").append(ticket);
+				
 				url.append("&globalSessionId=").append(request.getSession().getId());
+				//问题：request.getSession().getId()这个值作为全局id是不变的么？
+				
 				logger.info("登录成功：回跳应用网站：" + url.toString());
 				return "redirect:" + url.toString();
 			} else {
