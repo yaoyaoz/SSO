@@ -102,8 +102,13 @@ public class SSOClientFilter implements Filter {
 					postMethod.addParameter("localLoginOutUrl", basePath + localExitUrl);// 退出接口
 					postMethod.addParameter("localSessionId", session.getId());// 退出接口
 					/**
+					 * 问题：
 					 * 这个session.getId是全局的，还是本地的也？
+					 * 
+					 * 这个sessionId难道和UrlFilter得到的sessionId不一样么？
 					 */
+					System.out.println("SSOClientFilter:sessionId:" + session.getId());
+					
 					
 					// 发送验证请求
 					HttpClient httpClient = new HttpClient();
@@ -111,6 +116,12 @@ public class SSOClientFilter implements Filter {
 						httpClient.executeMethod(postMethod);
 						String json = postMethod.getResponseBodyAsString();
 						postMethod.releaseConnection();
+						
+						/**
+						 * 问题：
+						 * 这里调到ssoServer去了，还能直接返回来么？
+						 */
+						
 						// 返回
 						Map<String, Object> map = new Gson().fromJson(json, new TypeToken<Map<String, Object>>() {
 						}.getType());
