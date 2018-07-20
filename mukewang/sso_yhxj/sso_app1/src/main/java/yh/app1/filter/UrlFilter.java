@@ -35,10 +35,10 @@ public class UrlFilter implements Filter {
 		HttpServletRequest request = (HttpServletRequest) sRequest;
 		HttpServletResponse response = (HttpServletResponse) sResponse;
 		
-		System.out.println("UrlFilter前：客户端sessionId:" + request.getSession().getId());
+		System.out.println("app1:UrlFilter前：客户端sessionId:" + request.getSession().getId());
 		HttpSession session = request.getSession(true);// 若存在会话则返回该会话，否则新建一个会话。
 		//问题：看下这里的id和认证中心的globalSessionId是不是一个？
-		System.out.println("UrlFilter后 ：客户端sessionId:" + request.getSession().getId());
+		System.out.println("app1:UrlFilter后 ：客户端sessionId:" + request.getSession().getId());
 		
 		/**##### basePath路径的保存   #####**/
 		String path = request.getContextPath();//	/sso_app1

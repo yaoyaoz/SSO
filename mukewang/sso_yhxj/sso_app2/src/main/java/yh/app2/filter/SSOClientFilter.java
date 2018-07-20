@@ -47,6 +47,9 @@ public class SSOClientFilter implements Filter {
 		String username = (String) session.getAttribute("username");
 		String ticket = request.getParameter("ticket");
 		String globalSessionId = request.getParameter("globalSessionId");
+		
+		System.out.println("app1:SSOClientFilter:globalSessionId=" + globalSessionId);
+		
 		String url = request.getRequestURL().toString();
 
 		String[] needLoginAry = needLoginUrls.split(",");
@@ -84,6 +87,9 @@ public class SSOClientFilter implements Filter {
 							+ request.getServerPort() + request.getContextPath() + "/";
 					postMethod.addParameter("localLoginOutUrl", basePath + localExitUrl);// 退出接口
 					postMethod.addParameter("localSessionId", session.getId());// 退出接口
+					
+					System.out.println("app2:SSOClientFilter:localSessionId=" + session.getId());
+					
 					// 发送验证请求
 					HttpClient httpClient = new HttpClient();
 					try {

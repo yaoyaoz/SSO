@@ -54,6 +54,9 @@ public class SSOClientFilter implements Filter {
 		String username = (String) session.getAttribute("username");
 		String ticket = request.getParameter("ticket");
 		String globalSessionId = request.getParameter("globalSessionId");
+		
+		System.out.println("app1:SSOClientFilter:globalSessionId=" + globalSessionId);
+		
 		String url = request.getRequestURL().toString();//浏览器地址栏输的什么，这里得到的url就是什么
 
 		String[] needLoginAry = needLoginUrls.split(",");
@@ -101,6 +104,9 @@ public class SSOClientFilter implements Filter {
 							+ request.getServerPort() + request.getContextPath() + "/";
 					postMethod.addParameter("localLoginOutUrl", basePath + localExitUrl);// 退出接口
 					postMethod.addParameter("localSessionId", session.getId());// 退出接口
+					
+					System.out.println("app1:SSOClientFilter:localSessionId=" + session.getId());
+					
 					/**
 					 * 问题：
 					 * 这个session.getId是全局的，还是本地的也？

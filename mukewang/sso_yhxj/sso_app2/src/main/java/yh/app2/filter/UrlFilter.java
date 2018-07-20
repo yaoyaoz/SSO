@@ -30,7 +30,11 @@ public class UrlFilter implements Filter {
 			throws IOException, ServletException {
 		HttpServletRequest request = (HttpServletRequest) sRequest;
 		HttpServletResponse response = (HttpServletResponse) sResponse;
+		
+		System.out.println("app2:UrlFilter前：客户端sessionId:" + request.getSession().getId());
 		HttpSession session = request.getSession(true);// 若存在会话则返回该会话，否则新建一个会话。
+		System.out.println("app2:UrlFilter后：客户端sessionId:" + request.getSession().getId());
+		
 		/**##### basePath路径的保存   #####**/
 		String path = request.getContextPath();
 		String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path
