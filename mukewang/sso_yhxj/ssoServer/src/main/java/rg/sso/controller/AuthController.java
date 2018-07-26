@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.UUID;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -54,7 +55,7 @@ public class AuthController extends BaseController {
 			if (StringUtil.isUnEmpty(service)) {
 				// 外部访问
 				// ticket
-				String ticket = account + System.currentTimeMillis();
+				String ticket = UUID.randomUUID().toString();
 				TicketUtil.put(ticket, account);
 				StringBuilder url = new StringBuilder();
 				url.append(service);
@@ -101,7 +102,7 @@ public class AuthController extends BaseController {
 			// 是否是应用服务器重定向而来
 			if (StringUtil.isUnEmpty(service)) {
 				// ticket
-				String ticket = account + System.currentTimeMillis();
+				String ticket = UUID.randomUUID().toString();
 				TicketUtil.put(ticket, account);
 				StringBuilder url = new StringBuilder();
 				url.append(service);

@@ -8,11 +8,9 @@
 </head>
 <body>
 	<form action="login">
-		用户名：<input type="text" name="account"><br> 密码：<input
-			type="password" name="password"><br> <input
-			type="text" name="service" value="${service}">
-			
-			<br>
+		用户名：<input type="text" name="account"><br>
+		密码：<input type="password" name="password"><br>
+		<input type="hidden" name="service" value="${service}"><br>
 		<button type="submit">提交</button>
 	</form>
 </body>

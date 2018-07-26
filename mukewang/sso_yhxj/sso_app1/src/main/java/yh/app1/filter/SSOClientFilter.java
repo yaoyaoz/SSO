@@ -1,8 +1,6 @@
 package yh.app1.filter;
 
 import java.io.IOException;
-import java.net.URLEncoder;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.Filter;
@@ -78,10 +76,7 @@ public class SSOClientFilter implements Filter {
 		}
 		// 登录拦截
 		if (StringUtil.isEmpty(username)) {// 本地未登录
-			/**
-			 * 问题：为什么session里面有username，就代表是本地已经登录了也？
-			 */
-			
+						
 			// 中心已经登录
 			if (StringUtil.isUnEmpty(ticket)) {
 				/**

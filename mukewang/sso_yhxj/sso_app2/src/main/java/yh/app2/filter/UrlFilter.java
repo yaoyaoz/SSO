@@ -1,8 +1,6 @@
 package yh.app2.filter;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,9 +29,8 @@ public class UrlFilter implements Filter {
 		HttpServletRequest request = (HttpServletRequest) sRequest;
 		HttpServletResponse response = (HttpServletResponse) sResponse;
 		
-		System.out.println("app2:UrlFilter前：客户端sessionId:" + request.getSession().getId());
 		HttpSession session = request.getSession(true);// 若存在会话则返回该会话，否则新建一个会话。
-		System.out.println("app2:UrlFilter后：客户端sessionId:" + request.getSession().getId());
+		logger.info("UrlFilter：客户端sessionId:[{}]", request.getSession().getId());
 		
 		/**##### basePath路径的保存   #####**/
 		String path = request.getContextPath();

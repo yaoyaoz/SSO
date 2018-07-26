@@ -18,29 +18,22 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class WebConfig {
 
-    @Bean
-    public FilterRegistrationBean setSSOClientFilter() {
-        FilterRegistrationBean filterBean = new FilterRegistrationBean();
-        filterBean.setFilter(new SSOClientFilter());
-        filterBean.setName("sSOClientFilter");
-        filterBean.addUrlPatterns("/*");
-        return filterBean;
-    }
+//    @Bean
+//    public FilterRegistrationBean setSSOClientFilter() {
+//        FilterRegistrationBean filterBean = new FilterRegistrationBean();
+//        filterBean.setFilter(new SSOClientFilter());
+//        filterBean.setName("sSOClientFilter");
+//        filterBean.addUrlPatterns("/*");
+//        return filterBean;
+//    }
+//
+//    @Bean
+//    public ServletListenerRegistrationBean<LocalSessionListener> setLocalSessionListener() {
+//        ServletListenerRegistrationBean<LocalSessionListener> localSessionListener = new ServletListenerRegistrationBean<LocalSessionListener>(new LocalSessionListener());
+//        return localSessionListener;
+//    }
 
-    @Bean
-    public ServletListenerRegistrationBean<LocalSessionListener> setLocalSessionListener() {
-        ServletListenerRegistrationBean<LocalSessionListener> localSessionListener = new ServletListenerRegistrationBean<LocalSessionListener>(new LocalSessionListener());
-        return localSessionListener;
-    }
-
-    //登出listener
-    @Bean
-    public ServletListenerRegistrationBean<SingleSignOutHttpSessionListener> setSingleSignOutHttpSessionListener() {
-        ServletListenerRegistrationBean<SingleSignOutHttpSessionListener> singleSignOutHttpSessionListener = new ServletListenerRegistrationBean<SingleSignOutHttpSessionListener>(new SingleSignOutHttpSessionListener());
-        return singleSignOutHttpSessionListener;
-    }
-
-    //登出filter
+	//登出filter
     @Bean
     public FilterRegistrationBean setSingleSignOutFilter() {
         FilterRegistrationBean filterBean = new FilterRegistrationBean();
@@ -48,6 +41,13 @@ public class WebConfig {
         filterBean.setName("singleSignOutFilter");
         filterBean.addUrlPatterns("/*");
         return filterBean;
+    }
+	
+    //登出listener
+    @Bean
+    public ServletListenerRegistrationBean<SingleSignOutHttpSessionListener> setSingleSignOutHttpSessionListener() {
+        ServletListenerRegistrationBean<SingleSignOutHttpSessionListener> singleSignOutHttpSessionListener = new ServletListenerRegistrationBean<SingleSignOutHttpSessionListener>(new SingleSignOutHttpSessionListener());
+        return singleSignOutHttpSessionListener;
     }
 
     //认证filter
@@ -71,6 +71,7 @@ public class WebConfig {
         filterBean.addInitParameter("casServerUrlPrefix", "http://www.cas.com:8080");
         filterBean.addInitParameter("serverName", "http://www.ssoclient.com:8081");
         filterBean.addUrlPatterns("/*");
+        filterBean.setOrder(1);
         return filterBean;
     }
 

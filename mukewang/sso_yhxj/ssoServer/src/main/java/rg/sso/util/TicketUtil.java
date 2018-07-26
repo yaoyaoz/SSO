@@ -2,8 +2,6 @@ package rg.sso.util;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.servlet.http.HttpSession;
 /**
  * @Title:TicketUtil
  * @Description:令牌缓存

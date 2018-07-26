@@ -1,8 +1,6 @@
 package yh.app2.filter;
 
 import java.io.IOException;
-import java.net.URLEncoder;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.Filter;
@@ -48,7 +46,7 @@ public class SSOClientFilter implements Filter {
 		String ticket = request.getParameter("ticket");
 		String globalSessionId = request.getParameter("globalSessionId");
 		
-		System.out.println("app1:SSOClientFilter:globalSessionId=" + globalSessionId);
+		System.out.println("app2:SSOClientFilter:globalSessionId=" + globalSessionId);
 		
 		String url = request.getRequestURL().toString();
 

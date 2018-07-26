@@ -3,6 +3,8 @@ package com.yy.ssoclient_app1.ssoclientapp1;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import javax.servlet.http.HttpSessionListener;
+
 @SpringBootApplication
 public class SsoclientApp1Application {
 
