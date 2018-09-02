@@ -21,7 +21,12 @@ public class AuthenticationTest {
 
     @Before
     public void addUser() {
-        simpleAccountRealm.addAccount("yaoyao", "123456");
+//        simpleAccountRealm.addAccount("yaoyao", "123456");
+
+        //权限的部分，后面再演示，因为simpleAccountRealm是不支持权限的
+//        simpleAccountRealm.addAccount("yaoyao", "123456", "admin");
+        simpleAccountRealm.addAccount("yaoyao", "123456", "admin", "user");
+
     }
 
     @Test
@@ -37,11 +42,17 @@ public class AuthenticationTest {
 
         AuthenticationToken token = new UsernamePasswordToken("yaoyao", "123456");
 
+        //登录
         subject.login(token);
         System.out.println("isAuthenticated:" + subject.isAuthenticated());
 
-        subject.logout();
-        System.out.println("isAuthenticated:" + subject.isAuthenticated());
+        //登出
+//        subject.logout();
+//        System.out.println("isAuthenticated:" + subject.isAuthenticated());
+
+        //验证角色
+//        subject.checkRole("admin1");
+        subject.checkRoles("admin", "user");
 
     }
 
