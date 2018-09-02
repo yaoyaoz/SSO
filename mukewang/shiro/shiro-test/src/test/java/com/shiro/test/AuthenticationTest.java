@@ -11,7 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- *
+ * Shiro认证测试
  *
  * Created by yaoyao on 2018-08-25.
  */
