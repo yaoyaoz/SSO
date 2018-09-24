@@ -36,6 +36,18 @@ public class JdbcRealmTest {
         //权限开关：默认为false，就不会去数据库查权限
         jdbcRealm.setPermissionsLookupEnabled(true);
 
+        /** 自定义认证查询sql */
+//        String authenticationSql = "select password from test_users where username = ?";
+//        jdbcRealm.setAuthenticationQuery(authenticationSql);
+
+        /** 自定义用户角色查询sql */
+//        String roleSql = "select role_name from test_user_roles where username = ?";
+//        jdbcRealm.setUserRolesQuery(roleSql);
+
+        /** 自定义角色权限查询sql */
+//        String permissionSql = "select permission1 from test_roles_permissions where role_name = ?";
+//        jdbcRealm.setPermissionsQuery(permissionSql);
+
         //1、构建SecurityManager环境
         DefaultSecurityManager defaultSecurityManager = new DefaultSecurityManager();
         defaultSecurityManager.setRealm(jdbcRealm);
@@ -45,6 +57,7 @@ public class JdbcRealmTest {
         Subject subject = SecurityUtils.getSubject();
 
         AuthenticationToken token = new UsernamePasswordToken("yaoyao", "123456");
+//        AuthenticationToken token = new UsernamePasswordToken("xiaoming", "123456");
 
         //登录
         subject.login(token);
@@ -52,8 +65,10 @@ public class JdbcRealmTest {
 
 //        subject.checkRole("admin");
         subject.checkRoles("admin", "user");
+//        subject.checkRoles("user");
 
         subject.checkPermission("user:select");
+//        subject.checkPermission("user:update");
 
     }
 
