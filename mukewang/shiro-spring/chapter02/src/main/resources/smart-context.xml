@@ -15,7 +15,40 @@
     <!-- 扫描类包，将标注Spring注解的类自动转化Bean，同时完成Bean的注入 -->
     <context:component-scan base-package="com.yaoyao.dao"/>
     <context:component-scan base-package="com.yaoyao.service"/>
-    
+
+
+
+	<!-- 扫描web包，应用Spring的注解 -->
+	<context:component-scan base-package="com.yaoyao.web"/>
+
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager" />
+		<property name="loginUrl" value="login.html" />
+		<property name="unauthorizedUrl" value="403.html" />
+		<property name="filterChainDefinitions">
+			<value>
+				/login.html = anon
+				/subLogin.html = anon
+				/* = authc
+			</value>
+		</property>
+	</bean>
+
+	<!--创建SecurityManager对象  -->
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realm" ref="realm" />
+	</bean>
+
+	<bean id="realm" class="com.yaoyao.shiro.realm.CustomRealm">
+		<property name="credentialsMatcher" ref="credentialsMatcher"/>
+	</bean>
+
+	<bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+		<property name="hashAlgorithmName" value="md5"/>
+		<property name="hashIterations" value="1"/>
+	</bean>
+
+
     <!-- 配置数据源 -->
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close" 

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Created by yaoyao on 2018/9/27.
@@ -15,7 +16,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class UserController {
 
-    @RequestMapping(value = "/subLogin.html")//method = RequestMethod.POST
+    @RequestMapping(value = "/login.html")
+    public ModelAndView login() {
+        return new ModelAndView("login");
+    }
+
+    @RequestMapping(value = "/subLogin.html", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
     @ResponseBody
     public String subLogin(User user) {
         Subject subject = SecurityUtils.getSubject();

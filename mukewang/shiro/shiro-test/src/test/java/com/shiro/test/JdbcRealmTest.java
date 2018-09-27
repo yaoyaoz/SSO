@@ -37,16 +37,16 @@ public class JdbcRealmTest {
         jdbcRealm.setPermissionsLookupEnabled(true);
 
         /** 自定义认证查询sql */
-//        String authenticationSql = "select password from test_users where username = ?";
-//        jdbcRealm.setAuthenticationQuery(authenticationSql);
+        String authenticationSql = "select password from test_users where username = ?";
+        jdbcRealm.setAuthenticationQuery(authenticationSql);
 
         /** 自定义用户角色查询sql */
-//        String roleSql = "select role_name from test_user_roles where username = ?";
-//        jdbcRealm.setUserRolesQuery(roleSql);
+        String roleSql = "select role_name from test_user_roles where username = ?";
+        jdbcRealm.setUserRolesQuery(roleSql);
 
         /** 自定义角色权限查询sql */
-//        String permissionSql = "select permission1 from test_roles_permissions where role_name = ?";
-//        jdbcRealm.setPermissionsQuery(permissionSql);
+        String permissionSql = "select permission1 from test_roles_permissions where role_name = ?";
+        jdbcRealm.setPermissionsQuery(permissionSql);
 
         //1、构建SecurityManager环境
         DefaultSecurityManager defaultSecurityManager = new DefaultSecurityManager();
@@ -56,7 +56,7 @@ public class JdbcRealmTest {
         SecurityUtils.setSecurityManager(defaultSecurityManager);
         Subject subject = SecurityUtils.getSubject();
 
-        AuthenticationToken token = new UsernamePasswordToken("yaoyao", "123456");
+        AuthenticationToken token = new UsernamePasswordToken("xiaoming", "123456");
 //        AuthenticationToken token = new UsernamePasswordToken("xiaoming", "123456");
 
         //登录

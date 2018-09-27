@@ -52,7 +52,7 @@ public class AuthenticationTest {
 
         //验证角色
 //        subject.checkRole("admin1");
-        subject.checkRoles("admin", "user");
+        subject.checkRoles("admin78", "user");
 
     }
 
