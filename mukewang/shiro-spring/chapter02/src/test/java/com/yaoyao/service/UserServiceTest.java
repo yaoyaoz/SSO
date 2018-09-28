@@ -10,7 +10,7 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 /**
- * Created by HOME on 2017-07-16.
+ * Created by yaoyao on 2017-07-16.
  */
 @ContextConfiguration("classpath*:/smart-context.xml") //启动Spring容器
 public class UserServiceTest extends AbstractTransactionalTestNGSpringContextTests {

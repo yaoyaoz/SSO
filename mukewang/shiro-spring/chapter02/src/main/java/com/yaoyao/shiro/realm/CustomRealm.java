@@ -1,5 +1,8 @@
 package com.yaoyao.shiro.realm;
 
+import com.yaoyao.dao.UserDao;
+import com.yaoyao.domain.User;
+import com.yaoyao.web.User;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -11,27 +14,18 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by yaoyao on 2018-09-24.
  */
 public class CustomRealm extends AuthorizingRealm {
 
-    Map<String, String> userMap = new HashMap<String, String>();
-
-    {
-//        userMap.put("yaoyao", "123456")
-        userMap.put("yaoyao", "e10adc3949ba59abbe56e057f20f883e");//"123456"
-//        userMap.put("yaoyao", "0659c7992e268962384eb17fafe88364");//"123456"+"abc"
-//        super.setName("customRealm");
-    }
+    private UserDao userDao;
 
     /**
      * 授权
+     *
      * @param principals
      * @return
      */
@@ -58,6 +52,8 @@ public class CustomRealm extends AuthorizingRealm {
     }
 
     private Set<String> getRolesByUserName(String userName) {
+        List<String> list = userDao.queryRolesByUserName(userName);
+    。。。。写到这里
         Set<String> sets = new HashSet<String>();
         sets.add("admin");
         sets.add("user");
@@ -66,6 +62,7 @@ public class CustomRealm extends AuthorizingRealm {
 
     /**
      * 认证
+     *
      * @param token
      * @return
      * @throws AuthenticationException
@@ -77,7 +74,7 @@ public class CustomRealm extends AuthorizingRealm {
 
         //2、通过用户名到数据库中获取凭证
         String password = getPasswordByUserName(userName);
-        if(password == null) {
+        if (password == null) {
             return null;
         }
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(userName, password, "customRealm");
@@ -90,7 +87,11 @@ public class CustomRealm extends AuthorizingRealm {
     }
 
     private String getPasswordByUserName(String userName) {
-        return userMap.get(userName);
+        User user = userDao.getUserByUserName(userName);
+        if (user != null) {
+            return user.getPassword();
+        }
+        return null;
     }
 
     public static void main(String[] args) {

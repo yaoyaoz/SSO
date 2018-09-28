@@ -35,6 +35,14 @@
 		<property name="hashIterations" value="1"/>
 	</bean>-->
 
+	<!--<mvc:annotation-driven>
+		<mvc:message-converters register-defaults="true">
+			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+				<constructor-arg value="UTF-8"/>
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>-->
+
 	<!-- 配置视图解析器，将ModelAndView及字符串解析为具体的页面 -->
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver"

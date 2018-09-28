@@ -3,7 +3,7 @@ package com.yaoyao.domain;
 import java.util.Date;
 
 /**
- * Created by HOME on 2017-07-05.
+ * Created by yaoyao on 2017-07-05.
  */
 public class LoginLog {//implements Serializable
 

@@ -1,7 +1,7 @@
 package com.yaoyao.web;
 
 /**
- * Created by HOME on 2017-08-18.
+ * Created by yaoyao on 2017-08-18.
  */
 public class LoginCommand {
 

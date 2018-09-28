@@ -5,7 +5,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 /**
- * Created by HOME on 2017-07-12.
+ * Created by yaoyao on 2017-07-12.
  */
 @Repository
 public class LoginLogDao {

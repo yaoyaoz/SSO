@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
 /**
  * Created by yaoyao on 2018/9/27.
  */
@@ -21,17 +24,25 @@ public class UserController {
         return new ModelAndView("login");
     }
 
-    @RequestMapping(value = "/subLogin.html", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
-    @ResponseBody
-    public String subLogin(User user) {
+    @RequestMapping(value = "/subLogin.html", method = RequestMethod.POST)
+    public void subLogin(User user, HttpServletResponse response) {
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json; charset=utf-8");
+
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(user.getUserName(), user.getPassword());
         try {
-            subject.login(token);
-        } catch (AuthenticationException e) {
-            return e.getMessage();
+            try {
+                subject.login(token);
+            } catch (AuthenticationException e) {
+                response.getWriter().write(e.getMessage());
+                return;
+            }
+            response.getWriter().write("登录成功");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        return "登录成功";
+
     }
 
 }
