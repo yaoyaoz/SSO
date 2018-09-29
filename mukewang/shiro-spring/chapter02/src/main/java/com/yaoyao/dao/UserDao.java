@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,6 +24,8 @@ public class UserDao {
     private final String AUTHENTICATION_QUERY = "select username, password from users where username = ?";
 
     private final String USER_ROLES_QUERY = "select role_name from user_roles where username = ?";
+
+    private final String PERMISSIONS_QUERY = "select permission from roles_permissions where role_name in(?)";
 
     @Autowired //自动注入JdbcTemplate的Bean
     public void setJdbcTemlate(JdbcTemplate jdbcTemlate) {
@@ -47,4 +50,16 @@ public class UserDao {
             }
         });
     }
+
+    public List<String> queryPermissionByRoleNames(String roleNames) {
+        if (!StringUtils.isEmpty(roleNames)) {
+            return jdbcTemlate.query(PERMISSIONS_QUERY, new String[]{roleNames}, new RowMapper<String>() {
+                public String mapRow(ResultSet resultSet, int i) throws SQLException {
+                    return resultSet.getString("permission");
+                }
+            });
+        }
+        return null;
+    }
+
 }
