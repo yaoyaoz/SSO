@@ -43,6 +43,12 @@
             <version>1.8.13</version>
         </dependency>
 
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>2.9.0</version>
+        </dependency>
+
         <!-- 依赖的Spring模块类库 -->
         <dependency>
             <groupId>org.springframework</groupId>
