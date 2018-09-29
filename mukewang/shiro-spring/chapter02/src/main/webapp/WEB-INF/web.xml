@@ -18,7 +18,7 @@
     <!-- 1、从类路径下加载spring配置文件，classpath关键字特指类路径下加载 -->
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:smart-context.xml</param-value>
+        <param-value>classpath:/spring/*</param-value>
     </context-param>
 
     <!-- 2、负责启动Spring容器的监听器，它将引用1处的上下文参数获得Spring配置文件的地址 -->

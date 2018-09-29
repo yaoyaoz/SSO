@@ -3,6 +3,7 @@ package com.yaoyao.web;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.util.WebUtils;
 import org.springframework.stereotype.Controller;
@@ -78,6 +79,34 @@ public class UserController {
         Subject subject = SecurityUtils.getSubject();
         try {
             response.getWriter().write("测试页面，" + subject.getPrincipal());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @RequiresRoles("admin")
+    @RequestMapping(value = "testRole.html")
+    public void testRole(HttpServletResponse response) {
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json; charset=utf-8");
+
+        Subject subject = SecurityUtils.getSubject();
+        try {
+            response.getWriter().write("testRole success!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @RequiresRoles("xxx")
+    @RequestMapping(value = "testRole1.html")
+    public void testRole1(HttpServletResponse response) {
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json; charset=utf-8");
+
+        Subject subject = SecurityUtils.getSubject();
+        try {
+            response.getWriter().write("testRole1 success!");
         } catch (IOException e) {
             e.printStackTrace();
         }
