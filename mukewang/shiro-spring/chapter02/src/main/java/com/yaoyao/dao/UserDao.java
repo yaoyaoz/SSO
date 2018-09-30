@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Created by HOME on 2017-07-05.
  */
-@Repository //通过Spring注解定义一个DAO
+@Repository
 public class UserDao {
 
     private JdbcTemplate jdbcTemlate;

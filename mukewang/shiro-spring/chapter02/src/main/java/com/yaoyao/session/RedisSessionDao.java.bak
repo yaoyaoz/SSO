@@ -1,0 +1,80 @@
+package com.yaoyao.session;
+
+import com.yaoyao.util.RedisUtil;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.session.UnknownSessionException;
+import org.apache.shiro.session.mgt.eis.AbstractSessionDAO;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.SerializationUtils;
+
+import javax.annotation.Resource;
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
+/**
+ * Created by yaoyao on 2018/9/29.
+ */
+public class RedisSessionDao extends AbstractSessionDAO {
+
+    @Resource
+    private RedisUtil redisUtil;
+
+    private final String SHIRO_SEESION_PREFIX = "shiro-session";
+
+    private byte[] getKey(String key) {
+        return (SHIRO_SEESION_PREFIX + key).getBytes();
+    }
+
+    private void savaSession(Session session) {
+        if (session != null && session.getId() != null) {
+            byte[] key = getKey(session.getId().toString());
+            byte[] value = SerializationUtils.serialize(session);
+            redisUtil.set(key, value);
+            redisUtil.expire(key, 600);
+        }
+    }
+
+    protected Serializable doCreate(Session session) {
+        Serializable sessionId = generateSessionId(session);
+        savaSession(session);
+        return sessionId;
+    }
+
+    protected Session doReadSession(Serializable sessionId) {
+        if (sessionId == null) {
+            return null;
+        }
+        byte[] key = getKey(sessionId.toString());
+        byte[] value = redisUtil.get(key);
+        return (Session) SerializationUtils.deserialize(value);
+    }
+
+    public void update(Session session) throws UnknownSessionException {
+        if (session != null && session.getId() != null) {
+            savaSession(session);
+        }
+    }
+
+    public void delete(Session session) {
+        if (session == null || session.getId() == null) {
+            return ;
+        }
+        byte[] key = getKey(session.getId().toString());
+        redisUtil.del(key);
+    }
+
+    public Collection<Session> getActiveSessions() {
+        Set<byte[]> keys = redisUtil.keys(SHIRO_SEESION_PREFIX);
+        Set<Session> sessions = new HashSet<Session>();
+        if (CollectionUtils.isEmpty(keys)) {
+            return sessions;
+        }
+        for (byte[] key : keys) {
+            Session session = (Session) SerializationUtils.deserialize(redisUtil.get(key));
+            sessions.add(session);
+        }
+        return sessions;
+    }
+}

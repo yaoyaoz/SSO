@@ -3,6 +3,8 @@ package com.yaoyao.web;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.util.WebUtils;
@@ -98,7 +100,7 @@ public class UserController {
         }
     }
 
-    @RequiresRoles("xxx")
+    @RequiresRoles(value = {"xxx", "aaa"}, logical = Logical.OR)
     @RequestMapping(value = "testRole1.html")
     public void testRole1(HttpServletResponse response) {
         response.setCharacterEncoding("UTF-8");
